@@ -8,8 +8,10 @@ namespace ConnectCinco.entidade
 {
     internal class Nó
     {
+        private const int SIZE_X = 5;
+        private const int SIZE_Y = 5;
         private int altura_do_nó;
-        private char[,] tabuleiro = new char[9, 9];
+        private char[,] tabuleiro = new char[SIZE_X, SIZE_Y];
         public int Heurística { get; set; }
         public List<Nó> Filhos { get; set; }
         public Nó(int altura_do_nó)
@@ -38,12 +40,12 @@ namespace ConnectCinco.entidade
            
                 Console.WriteLine();
           
-            Console.WriteLine("  1 2 3 4 5 6 7 8 9");
-                for (int i = 0; i < 9; i++)
+            Console.WriteLine("  1 2 3 4 5");
+                for (int i = 0; i < SIZE_X; i++)
                 {
                 Console.Write((i + 1) + " ");
                     
-                    for (int j = 0; j < 9; j++)
+                    for (int j = 0; j < SIZE_Y; j++)
                     {
                         
                       Console.Write(tabuleiro[i, j] + " ");
@@ -80,9 +82,9 @@ namespace ConnectCinco.entidade
         private bool VerificarSequencia(char jogador)
         {
             // Verificar sequências de cinco em linha
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < SIZE_X; i++)
             {
-                for (int j = 0; j <= 4; j++)
+                for (int j = 0; j <= SIZE_Y - 4; j++)
                 {
                     if (tabuleiro[i, j] == jogador &&
                         tabuleiro[i, j + 1] == jogador &&
@@ -96,9 +98,9 @@ namespace ConnectCinco.entidade
             }
 
             // Verificar sequências de cinco em coluna
-            for (int j = 0; j < 9; j++)
+            for (int j = 0; j < 5; j++)
             {
-                for (int i = 0; i <= 4; i++)
+                for (int i = 0; i <= SIZE_X  - 4; i++)
                 {
                     if (tabuleiro[i, j] == jogador &&
                         tabuleiro[i + 1, j] == jogador &&
@@ -112,9 +114,9 @@ namespace ConnectCinco.entidade
             }
 
             // Verificar sequências de cinco em diagonal
-            for (int i = 0; i <= 4; i++)
+            for (int i = 0; i <= SIZE_X  - 4; i++)
             {
-                for (int j = 0; j <= 4; j++)
+                for (int j = 0; j <= SIZE_Y - 4; j++)
                 {
                     if (tabuleiro[i, j] == jogador &&
                         tabuleiro[i + 1, j + 1] == jogador &&
@@ -128,9 +130,9 @@ namespace ConnectCinco.entidade
             }
 
             // Verificar sequências de cinco em diagonal invertida
-            for (int i = 4; i < 9; i++)
+            for (int i = 4; i < SIZE_X; i++)
             {
-                for (int j = 0; j <= 4; j++)
+                for (int j = 0; j <= SIZE_Y - 4; j++)
                 {
                     if (tabuleiro[i, j] == jogador &&
                         tabuleiro[i - 1, j + 1] == jogador &&

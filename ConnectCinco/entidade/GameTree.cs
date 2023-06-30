@@ -68,9 +68,9 @@ namespace ConnectCinco.entidade
             if (pai.getAlturaDoNó() + 1 > LIMITE_ALTURA) { return; }
             else
             {
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < 5; i++)
                 {
-                    for (int j = 0; j < 9; j++)
+                    for (int j = 0; j < 5; j++)
                     {
                         /*char[,] campo = new char[9, 9];
                         campo = (char[,])pai.getTabuleiroArray().Clone();

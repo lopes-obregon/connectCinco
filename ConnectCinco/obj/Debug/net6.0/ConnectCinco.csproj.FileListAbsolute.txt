@@ -13,3 +13,18 @@ D:\Programas Dev\Testes\ConnectCinco\ConnectCinco\obj\Debug\net6.0\refint\Connec
 D:\Programas Dev\Testes\ConnectCinco\ConnectCinco\obj\Debug\net6.0\ConnectCinco.pdb
 D:\Programas Dev\Testes\ConnectCinco\ConnectCinco\obj\Debug\net6.0\ConnectCinco.genruntimeconfig.cache
 D:\Programas Dev\Testes\ConnectCinco\ConnectCinco\obj\Debug\net6.0\ref\ConnectCinco.dll
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\bin\Debug\net6.0\ConnectCinco.exe
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\bin\Debug\net6.0\ConnectCinco.deps.json
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\bin\Debug\net6.0\ConnectCinco.runtimeconfig.json
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\bin\Debug\net6.0\ConnectCinco.dll
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\bin\Debug\net6.0\ConnectCinco.pdb
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\obj\Debug\net6.0\ConnectCinco.csproj.AssemblyReference.cache
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\obj\Debug\net6.0\ConnectCinco.GeneratedMSBuildEditorConfig.editorconfig
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\obj\Debug\net6.0\ConnectCinco.AssemblyInfoInputs.cache
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\obj\Debug\net6.0\ConnectCinco.AssemblyInfo.cs
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\obj\Debug\net6.0\ConnectCinco.csproj.CoreCompileInputs.cache
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\obj\Debug\net6.0\ConnectCinco.dll
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\obj\Debug\net6.0\refint\ConnectCinco.dll
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\obj\Debug\net6.0\ConnectCinco.pdb
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\obj\Debug\net6.0\ConnectCinco.genruntimeconfig.cache
+D:\Faculdade\IA\ConnectCinco\ConnectCinco\obj\Debug\net6.0\ref\ConnectCinco.dll

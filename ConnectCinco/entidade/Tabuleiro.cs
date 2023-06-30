@@ -8,18 +8,20 @@ using System.Threading.Tasks;
 
 namespace ConnectCinco.entidade
 {
-    
 
-   
+
+
     internal class Tabuleiro
     {
-        public char[,] campo = new char[9, 9];
+        private const int SIZE_X = 5;
+        private const int SIZE_Y = 5;
+        public char[,] campo = new char[SIZE_X, SIZE_Y];
         private Int16 contadorA = 0;
         private Int16 contadorB = 0;
         internal void init()
         {
-            for(int i = 0; i < 9; i++) { 
-                for(int j = 0; j < 9; j++)
+            for(int i = 0; i < SIZE_X; i++) { 
+                for(int j = 0; j < SIZE_Y; j++)
                 {
                     campo[i, j] = '-';
                 }
@@ -55,14 +57,14 @@ namespace ConnectCinco.entidade
 
             }
         }
-
+        //verifica se tem vitória em diagonal secundária
         public int verificaEmDiagonal2()
         {
             contadorA = 0;
             contadorB = 0;
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < SIZE_X; i++)
             {
-                for (int j = 9; j < 0; j--)
+                for (int j = SIZE_Y; j < 0; j--)
                 {
                     if (i == j)
                     {
@@ -79,13 +81,13 @@ namespace ConnectCinco.entidade
             }
             return 0;
         }
-
+        //verifica se tem vitória em diagonal
         public int verificaEmDiagonal()
         {
             contadorA = 0;
             contadorB = 0;
-            for(int i = 0; i < 9; i++) { 
-                for(int j = 0; j < 9; j++)
+            for(int i = 0; i < SIZE_X; i++) { 
+                for(int j = 0; j < SIZE_Y; j++)
                 {
                     if(i == j)
                     {
@@ -102,14 +104,14 @@ namespace ConnectCinco.entidade
             }
             return 0;
         }
-
+        //verifica se tem vitória em coluna
         public int verificaEmConluna()
         {
             contadorA = 0;
             contadorB = 0;
-           for (int i = 0;i < 9;i++)
+           for (int i = 0;i < SIZE_X;i++)
             {
-                for( int j = 0;j < 9;j++)
+                for( int j = 0;j < SIZE_Y;j++)
                 {
                     if (campo[j, i] == 'X' ) contadorA++;
                     else { contadorA = 0; }
@@ -126,13 +128,13 @@ namespace ConnectCinco.entidade
             }
             return 0;
         }
-
+        //verificia vitória em linha
         public int verificaEmLinha()
         {
 
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < SIZE_X; i++)
             {
-                for (int j = 0; j < 9; j++)
+                for (int j = 0; j < SIZE_Y; j++)
                 {
                     if (campo[i, j] == 'X') contadorA++;
                     else
@@ -148,24 +150,39 @@ namespace ConnectCinco.entidade
             }
             return 0; // 0 para não ter vencedor em linha
         }
-
+        //verifica se é vazio se for seta com o valor correspondente
         internal void setCampo(int i, int j, char jogador)
         {
-            campo[i, j] = jogador;
+            if (campo[i, j] == '-')
+            {
+                campo[i, j] = jogador;
+
+            }
+            else
+            {
+                Console.WriteLine("Campo já ocupado");
+            }
         }
+        //imprime o campo no console
         public void printCampo()
         {
             Console.WriteLine();
-            for(int i = 0;i < 9;i++)
+            Console.WriteLine("   1 2 3 4 5");
+            for(int i = 0;i < SIZE_X;i++)
             {
-                for(int j = 0; j < 9; j++)
+                Console.Write(i+1 + " ");
+                for(int j = 0; j < SIZE_Y; j++)
                 {
-                    Console.Write(campo[i, j]);
+                    if(j == 0)
+                    {
+                        Console.Write(" ");
+                    }
+                    Console.Write(campo[i, j]+ " ");
                 }
                 Console.WriteLine();
             }
         }
-
+        //faz a jogada da ia
         public void FazerJogada(Jogada jogada)
         {
             int linha = jogada.i;//linha
@@ -177,11 +194,28 @@ namespace ConnectCinco.entidade
             {
                 // Realizar a jogada
                 campo[linha, coluna] = jogador;
+                return;
             }
             else
             {
-                // Posição já ocupada, jogada inválida
-                Console.WriteLine("Jogada inválida!");
+                // Posição já ocupada, jogada inválida, indo  até achar uma jogada válida
+                if(linha >= SIZE_X)
+                {
+                    return;
+                }
+                if(coluna >= SIZE_Y)
+                {
+                    coluna = 0;
+                    linha++;
+                    jogada.i = linha; jogada.j = coluna;
+                    FazerJogada(jogada);
+                }
+                else
+                {
+                    coluna++;
+                    jogada.j = coluna;
+                    FazerJogada(jogada);
+                }
             }
         }
 

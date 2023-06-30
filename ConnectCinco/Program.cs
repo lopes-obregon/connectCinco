@@ -27,17 +27,38 @@ namespace ConnectCinco
             Console.WriteLine("IA VERSUS!");
             Tabuleiro tabuleiro = new Tabuleiro();
             tabuleiro.init();
-            GameTree gameTree = new GameTree(tabuleiro);
-
             //raiz.printArvore(raiz.getHead());
             //raiz.printheuristica(raiz.getHead());
-            Jogada melhor_jogada = gameTree.EncontrarMelhorJogada();
-            tabuleiro.FazerJogada(melhor_jogada);
-
-            /*while (true)
+            
+            
+            while(true)
             {
-                
-            }*/
+                tabuleiro.printCampo();
+                Console.WriteLine("Informe a linha!");
+                int linha = int.Parse(Console.ReadLine());
+                Console.WriteLine("Informe a coluna!");
+                int coluna = int.Parse(Console.ReadLine());
+                tabuleiro.setCampo(linha - 1, coluna - 1, 'X');
+                tabuleiro.printCampo();
+                if (tabuleiro.isVencedor())
+                {
+                    Console.WriteLine("Temos um vencedor!");
+                    break;
+                }
+                else
+                {
+                    //Console.WriteLine("Inicio arvore!--------------------------------------");
+                    GameTree gameTree = new GameTree(tabuleiro);
+                   // gameTree.printArvore(gameTree.getHead());
+                    //Console.WriteLine("FIM ARVORE ----------------------------------------");
+                    Jogada melhor_jogada = gameTree.EncontrarMelhorJogada();
+                    tabuleiro.FazerJogada(melhor_jogada);
+
+                }
+               
+
+            }
+           
         }
     }
 }

@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Programas Dev\\Testes\\ConnectCinco\\ConnectCinco\\ConnectCinco.csproj",
+      "projectUniqueName": "D:\\Faculdade\\IA\\ConnectCinco\\ConnectCinco\\ConnectCinco.csproj",
       "projectName": "ConnectCinco",
-      "projectPath": "D:\\Programas Dev\\Testes\\ConnectCinco\\ConnectCinco\\ConnectCinco.csproj",
+      "projectPath": "D:\\Faculdade\\IA\\ConnectCinco\\ConnectCinco\\ConnectCinco.csproj",
       "packagesPath": "C:\\Users\\renan\\.nuget\\packages\\",
-      "outputPath": "D:\\Programas Dev\\Testes\\ConnectCinco\\ConnectCinco\\obj\\",
+      "outputPath": "D:\\Faculdade\\IA\\ConnectCinco\\ConnectCinco\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\renan\\AppData\\Roaming\\NuGet\\NuGet.Config",
