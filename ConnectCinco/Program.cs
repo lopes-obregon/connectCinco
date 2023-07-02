@@ -52,6 +52,8 @@ namespace ConnectCinco
                    // gameTree.printArvore(gameTree.getHead());
                     //Console.WriteLine("FIM ARVORE ----------------------------------------");
                     Jogada melhor_jogada = gameTree.EncontrarMelhorJogada();
+                    //CORRIGINDO ERROR DE JOGADOR NULL
+                    if (melhor_jogada.v != 'O') melhor_jogada.v = 'O';
                     tabuleiro.FazerJogada(melhor_jogada);
 
                 }

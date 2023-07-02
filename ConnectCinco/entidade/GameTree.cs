@@ -11,7 +11,7 @@ namespace ConnectCinco.entidade
     internal class GameTree
     {
     
-        private const int LIMITE_ALTURA = 2;
+        private const int LIMITE_ALTURA = 5;
         private Nó head;
         public GameTree(Tabuleiro tabuleiro)
         {
