@@ -18,10 +18,7 @@ namespace ConnectCinco.entidade
             int altura_do_nó = 0;
             Nó raíz = new Nó(altura_do_nó);
             raíz.initTabuleiro((char[,]) tabuleiro.campo.Clone()); 
-            head = raíz;
-            GerarArvore(raíz);
-           
-            
+            head = raíz;          
         }
 
 
@@ -62,7 +59,7 @@ namespace ConnectCinco.entidade
         }
 
         // 1 vitória -1 derrota e 0 empate máquina 'O'
-        private void GerarArvore(Nó pai)
+        public void GerarArvore(Nó pai)
         {
             if (pai == null) return;
             if (pai.getAlturaDoNó() + 1 > LIMITE_ALTURA) { return; }
@@ -76,29 +73,25 @@ namespace ConnectCinco.entidade
                         campo = (char[,])pai.getTabuleiroArray().Clone();
                         */// Criar um novo nó
                         Nó novo_nó = new Nó(pai.getAlturaDoNó() + 1);
-                        if (pai.getTabuleiro(i,j) == '-')
+                        novo_nó.setTabuleiro((char[,])pai.getTabuleiroArray().Clone());
+                        if (novo_nó.getTabuleiro(i,j) == '-')
                         {
-                            novo_nó.setTabuleiro((char[,])pai.getTabuleiroArray().Clone());
-                            //impar jogador'x', par máquina joga 'o'
+                            //impar IA'O', par JOGADOR 'X'
                             if (pai.getAlturaDoNó() % 2 == 0)
                             {
-                                novo_nó.setTabuleiro(i, j, 'O');
+                                //estado do jogador
+                                novo_nó.setTabuleiro(i, j, 'X');
                                 
                             }
                             else
                             {
-                                novo_nó.setTabuleiro(i, j, 'X');
+                                //estado da máquina
+                                novo_nó.setTabuleiro(i, j, 'O');
                             }
                           
                         }
                         pai.Filhos.Add(novo_nó);
                     }
-                }
-                foreach (Nó filho in pai.Filhos)
-                {
-                    GerarArvore(filho);
-                    int heuristica = MinimaxAlfaBeta(filho, filho.getAlturaDoNó(), int.MinValue, int.MaxValue, true);
-                    filho.Heurística = heuristica;
                 }
             }
         }
