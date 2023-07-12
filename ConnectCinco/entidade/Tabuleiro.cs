@@ -15,13 +15,13 @@ namespace ConnectCinco.entidade
     {
         private const int SIZE_X = 5;
         private const int SIZE_Y = 5;
-        public char[,] campo = new char[SIZE_X, SIZE_Y];
+        public char[,] campo = new char[SIZE_X - 1, SIZE_Y - 1 ];
         private Int16 contadorA = 0;
         private Int16 contadorB = 0;
         internal void init()
         {
-            for(int i = 0; i < SIZE_X; i++) { 
-                for(int j = 0; j < SIZE_Y; j++)
+            for(int i = 0; i < SIZE_X - 1; i++) { 
+                for(int j = 0; j < SIZE_Y - 1; j++)
                 {
                     campo[i, j] = '-';
                 }
@@ -62,7 +62,7 @@ namespace ConnectCinco.entidade
         {
             contadorA = 0;
             contadorB = 0;
-            for (int i = 0; i < SIZE_X; i++)
+            for (int i = 0; i < SIZE_X - 1; i++)
             {
                 for (int j = SIZE_Y; j < 0; j--)
                 {
@@ -86,8 +86,8 @@ namespace ConnectCinco.entidade
         {
             contadorA = 0;
             contadorB = 0;
-            for(int i = 0; i < SIZE_X; i++) { 
-                for(int j = 0; j < SIZE_Y; j++)
+            for(int i = 0; i < SIZE_X - 1; i++) { 
+                for(int j = 0; j < SIZE_Y - 1; j++)
                 {
                     if(i == j)
                     {
@@ -109,9 +109,9 @@ namespace ConnectCinco.entidade
         {
             contadorA = 0;
             contadorB = 0;
-           for (int i = 0;i < SIZE_X;i++)
+           for (int i = 0;i < SIZE_X - 1;i++)
             {
-                for( int j = 0;j < SIZE_Y;j++)
+                for( int j = 0;j < SIZE_Y - 1;j++)
                 {
                     if (campo[j, i] == 'X' ) contadorA++;
                     else { contadorA = 0; }
@@ -132,9 +132,9 @@ namespace ConnectCinco.entidade
         public int verificaEmLinha()
         {
 
-            for (int i = 0; i < SIZE_X; i++)
+            for (int i = 0; i < SIZE_X - 1; i++)
             {
-                for (int j = 0; j < SIZE_Y; j++)
+                for (int j = 0; j < SIZE_Y - 1; j++)
                 {
                     if (campo[i, j] == 'X') contadorA++;
                     else
@@ -168,10 +168,10 @@ namespace ConnectCinco.entidade
         {
             Console.WriteLine();
             Console.WriteLine("   1 2 3 4 5");
-            for(int i = 0;i < SIZE_X;i++)
+            for(int i = 0;i < SIZE_X - 1;i++)
             {
                 Console.Write(i+1 + " ");
-                for(int j = 0; j < SIZE_Y; j++)
+                for(int j = 0; j < SIZE_Y - 1; j++)
                 {
                     if(j == 0)
                     {
@@ -217,6 +217,10 @@ namespace ConnectCinco.entidade
                     FazerJogada(jogada);
                 }
             }
+        }
+        public Array getCampo()
+        {
+            return campo;
         }
 
     }

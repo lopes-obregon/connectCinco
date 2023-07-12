@@ -51,14 +51,14 @@ namespace ConnectCinco
                 else
                 {
                     //Console.WriteLine("Inicio arvore!--------------------------------------");
-                    GameTree gameTree = new GameTree(tabuleiro);
-                    GerarArvore(gameTree.getHead(), 0);
-                   // gameTree.printArvore(gameTree.getHead());
+                    Nó game_tree = new Nó((char[,])tabuleiro.getCampo().Clone());
+                    GerarGameTree(game_tree, 5);
+                    // gameTree.printArvore(gameTree.getHead());
                     //Console.WriteLine("FIM ARVORE ----------------------------------------");
                     //Jogada melhor_jogada = gameTree.EncontrarMelhorJogada();
                     //CORRIGINDO ERROR DE JOGADOR NULL
                     //if (melhor_jogada.v != 'O') melhor_jogada.v = 'O';
-                   // tabuleiro.FazerJogada(melhor_jogada);
+                    // tabuleiro.FazerJogada(melhor_jogada);
 
                 }
                
@@ -67,57 +67,33 @@ namespace ConnectCinco
            
         }
 
-        private static void GerarArvore(Nó pai, int index)
+        private static void GerarGameTree(Nó nó, int profundidade)
         {
-            if (pai == null) return;
-            else
+            if(profundidade == 0 || nó.isTerminal(profundidade)) {
+                return;
+            }
+            //Gere as jogadas possíveis a partir do estado atual do jogo
+            List<(int linha, int coluna)> movimentos = nó.gerar_movimentos();
+            foreach(var movimento in movimentos)
             {
-                GerarFilhos(pai.getAlturaDoNó()+1, pai);
-               /* foreach(Nó filho in pai.Filhos)
-                {
-                    GerarFilhos(filho.getAlturaDoNó() + 1, filho);
-                }*/
-               //existe pelomenos 1 filho
-               if(pai.Filhos.Count > 0)
-                {
-                    GerarArvore(pai.Filhos[index], index+1);
-                }
+                //Crie um novo nó para representar o estado resultante da jogada
+                var novo_estado = AplicarMovimento((char[,])nó.getEstado().Clone(), movimento, profundidade);
+                Nó novo_nó = new Nó((char[,])novo_estado);
+                //adiciona  o novo nó como filho do nó atual
+                nó.AddFilho(novo_nó);
+                //gerar recursivamente  a arvore
+                GerarGameTree(novo_nó, profundidade - 1);
             }
         }
 
-        private static void GerarFilhos(int altura, Nó pai)
+        private static Array AplicarMovimento(char[,] estado_atual, (int linha, int coluna) movimento, int profundidade)
         {
-            if (altura >= ALTURA_MAXIMA)
-            {
-                return;
-            }
-            else
-            {
-
-                for(int i = 0; i < TABULEIRO_X; i++)
-                {
-                    for(int j = 0; j < TABULEIRO_Y; j++)
-                    {
-                        if(pai.getTabuleiro(i,j) == '-')
-                        {
-                            Nó novo_nó = new Nó(altura);
-                            novo_nó.initTabuleiro((char[,])pai.getTabuleiroArray().Clone());
-                            //max 'X'
-                            if(pai.getAlturaDoNó()%2 == 0)
-                            {
-                                novo_nó.setTabuleiro(i, j, 'O');
-                            }
-                            else
-                            {
-                                //min 'O'
-                                novo_nó.setTabuleiro(i, j, 'X');
-                            }
-                            pai.Filhos.Add(novo_nó);
-
-                        }
-                    }
-                }
-            }
+            /*par para máquina ou seja representado por MAX(O)
+             *impar para jogador adversário ou seja representado por MIN(X)
+             *
+             ***/
+            estado_atual[movimento.linha, movimento.coluna] = profundidade % 2 == 0 ? '0' : 'X';
+            return estado_atual;
         }
     }
 }
