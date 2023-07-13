@@ -8,150 +8,178 @@ namespace ConnectCinco.entidade
 {
     internal class Nó
     {
-        private const int SIZE_X = 5;
-        private const int SIZE_Y = 5;
+        private const int SIZE_X = 6;
+        private const int SIZE_Y = 6;
         private int altura_do_nó;
-        private char[,] tabuleiro = new char[SIZE_X, SIZE_Y];
+        private Tuple<int, int> movimento;
+        private char[,] tabuleiro = new char[SIZE_X - 1, SIZE_Y - 1];
         public int Heurística { get; set; }
         public List<Nó> Filhos { get; set; }
-        public Nó(int altura_do_nó)
+        public Nó(char[,] state, (int i, int j)movimento)
         {
-            this.altura_do_nó = altura_do_nó;
-            Heurística = -3;
+            this.tabuleiro = state;
             Filhos = new List<Nó>();
-        }
-        public void initTabuleiro(char[,] tabuleiro)
-        {
-            this.tabuleiro = tabuleiro;
-        }
-        public void setTabuleiro(int i, int j, char valor)
-        {
-            this.tabuleiro[i, j] = valor;
-        }
-        public int getAlturaDoNó() { return altura_do_nó; }
-
-        internal char getTabuleiro(int i, int j)
-        {
-           return this.tabuleiro[i, j];
-        }
-
-        internal void printTabuleiro()
-        {
-           
-                Console.WriteLine();
-          
-            Console.WriteLine("  1 2 3 4 5");
-                for (int i = 0; i < SIZE_X; i++)
-                {
-                Console.Write((i + 1) + " ");
-                    
-                    for (int j = 0; j < SIZE_Y; j++)
-                    {
-                        
-                      Console.Write(tabuleiro[i, j] + " ");
-                    }
-                    Console.WriteLine();
-                }
+            this.movimento = new Tuple<int, int>(movimento.i, movimento.j);
             
         }
-
-        internal Array getTabuleiroArray()
+        public Nó(char[,] state)
         {
-            return this.tabuleiro;
+            this.tabuleiro = state;
+            Filhos = new List<Nó>();
+            
+        }
+        public Tuple<int, int> getMovimento()
+        {
+            return this.movimento;
+        }
+        public void  AddFilho(Nó filho)
+        {
+            this.Filhos.Add(filho);
         }
 
-        public int CalcularHeuristica()
+        internal List<(int linha, int coluna)> gerar_movimentos()
         {
-            if (VerificarSequencia('O'))
-            {
-                // Jogador 'O' venceu
-                return 1;
+            List<(int linha, int coluna)> movimento = new List<(int linha, int coluna)>();
+            //percorrer toda as linhas e colunas do tabuleiro
+            for(int i = 0; i < SIZE_X - 1; i++) { 
+                for(int j = 0; j < SIZE_Y - 1; j++)
+                {
+                    if (tabuleiro[i,j] == '-')
+                    {
+                        //elemento ausente na tabela
+                        movimento.Add((i, j));
+                    }
+                }
             }
-            else if (VerificarSequencia('X'))
+            return movimento;
+        }
+
+        internal bool isTerminal(int profundidade)
+        {
+            //método para verificar se o nó em questão é terminal se existe algum vencedor
+            if(isVencedor(profundidade))
             {
-                // Jogador 'X' venceu
-                return -1;
+                return true;
             }
             else
             {
-                // Nenhum jogador venceu, é um empate ou estado neutro
-                return 0;
+                return false;
+
             }
         }
-
-        private bool VerificarSequencia(char jogador)
+        //retorna se tamos um vencedor como sendo máquina ou jogador
+        private bool isVencedor(int profundidade)
         {
-            // Verificar sequências de cinco em linha
-            for (int i = 0; i < SIZE_X; i++)
+            
+            /*par para máquina ou seja representado por MAX(O)
+             *impar para jogador adversário ou seja representado por MIN(X)
+             *
+             ***/
+            var jogador = profundidade % 2 == 0 ? '0' : 'X';
+            int vitória_em_linha = 0;//flag da vitória em linha
+            int vitória_em_coluna = 0;//flag da vitória em coluna
+            int vitória_em_diagonal = 0;// flag da vitória em diagonal
+            int vitória_em_diagonal_dois = 0; //flag da vitória em diagonal dois 
+            for(int i = 0; i < SIZE_X - 1; i++)
             {
-                for (int j = 0; j <= SIZE_Y - 4; j++)
-                {
-                    if (tabuleiro[i, j] == jogador &&
-                        tabuleiro[i, j + 1] == jogador &&
-                        tabuleiro[i, j + 2] == jogador &&
-                        tabuleiro[i, j + 3] == jogador &&
-                        tabuleiro[i, j + 4] == jogador)
+                for(int j = 0;j < SIZE_Y - 1; j++)
+                {   
+                    //condição para vitória em linha
+                    if (tabuleiro[i, j] == jogador) vitória_em_linha++;
+                    else vitória_em_linha = 0;
+                    //verificar se vitória está em diagonal principal 
+                    if( i == j)
                     {
-                        return true;
-                    }
-                }
-            }
+                        //vitória para coluna
+                        if (tabuleiro[i,j] == jogador) vitória_em_diagonal++;
+                        else vitória_em_diagonal = 0;
 
-            // Verificar sequências de cinco em coluna
-            for (int j = 0; j < 5; j++)
-            {
-                for (int i = 0; i <= SIZE_X  - 4; i++)
-                {
-                    if (tabuleiro[i, j] == jogador &&
-                        tabuleiro[i + 1, j] == jogador &&
-                        tabuleiro[i + 2, j] == jogador &&
-                        tabuleiro[i + 3, j] == jogador &&
-                        tabuleiro[i + 4, j] == jogador)
-                    {
-                        return true;
                     }
-                }
-            }
+                    //vitória em coluna
+                    if (tabuleiro[j, i] == jogador) vitória_em_coluna++;
+                    else vitória_em_coluna = 0;
+                    //vitória diagonal dois
+                    if(i + j == SIZE_X - 1) vitória_em_diagonal_dois++;
+                    else vitória_em_diagonal_dois = 0;
 
-            // Verificar sequências de cinco em diagonal
-            for (int i = 0; i <= SIZE_X  - 4; i++)
-            {
-                for (int j = 0; j <= SIZE_Y - 4; j++)
-                {
-                    if (tabuleiro[i, j] == jogador &&
-                        tabuleiro[i + 1, j + 1] == jogador &&
-                        tabuleiro[i + 2, j + 2] == jogador &&
-                        tabuleiro[i + 3, j + 3] == jogador &&
-                        tabuleiro[i + 4, j + 4] == jogador)
-                    {
-                        return true;
-                    }
                 }
-            }
+                //se maior que cinco temos uma vitória em linha
+                if (vitória_em_linha >= 5) return true;
+                //se maior que cinco temos vitória em coluna 
+                else if (vitória_em_coluna >= 5) return true;
+                //vitória em cinco de diagonal
+                else if(vitória_em_diagonal >= 5) return true;
+                else if(vitória_em_diagonal_dois >= 5) return true;
 
-            // Verificar sequências de cinco em diagonal invertida
-            for (int i = 4; i < SIZE_X; i++)
-            {
-                for (int j = 0; j <= SIZE_Y - 4; j++)
-                {
-                    if (tabuleiro[i, j] == jogador &&
-                        tabuleiro[i - 1, j + 1] == jogador &&
-                        tabuleiro[i - 2, j + 2] == jogador &&
-                        tabuleiro[i - 3, j + 3] == jogador &&
-                        tabuleiro[i - 4, j + 4] == jogador)
-                    {
-                        return true;
-                    }
-                }
             }
-
             return false;
         }
 
-        internal void setTabuleiro(char[,] chars)
+        internal Array getEstado()
         {
-            this.tabuleiro = chars;
+            return tabuleiro;
         }
+        //Método que avalia condições do jogo
+        internal int avaliação(int profundidade)
+        {
+            /*par para máquina ou seja representado por MAX(O)
+             *impar para jogador adversário ou seja representado por MIN(X)
+             *
+             ***/
+            var jogador = profundidade % 2 == 0 ? '0' : 'X';
+            int vitória_em_linha = 0;//flag da vitória em linha
+            int vitória_em_coluna = 0;//flag da vitória em coluna
+            int vitória_em_diagonal = 0;// flag da vitória em diagonal
+            int vitória_em_diagonal_dois = 0; //flag da vitória em diagonal dois 
+            for (int i = 0; i < SIZE_X - 1; i++)
+            {
+                for (int j = 0; j < SIZE_Y - 1; j++)
+                {
+                    //condição para vitória em linha
+                    if (tabuleiro[i, j] == jogador) vitória_em_linha++;
+                    else vitória_em_linha = 0;
+                    //verificar se vitória está em diagonal principal 
+                    if (i == j)
+                    {
+                        //vitória para coluna
+                        if (tabuleiro[i, j] == jogador) vitória_em_diagonal++;
+                        else vitória_em_diagonal = 0;
+
+                    }
+                    //vitória em coluna
+                    if (tabuleiro[j, i] == jogador) vitória_em_coluna++;
+                    else vitória_em_coluna = 0;
+                    //vitória diagonal dois
+                    if (i + j == SIZE_X - 1) vitória_em_diagonal_dois++;
+                    else vitória_em_diagonal_dois = 0;
+
+                }
+                //se maior que cinco temos uma vitória em linha
+                //verificar de quém é a vitória MAX(0) 1 MIN(X) -1  EMPATE 0
+                // ou seja IA VENCE 1 IA PERDE -1 IA EMPATA 0
+                if (vitória_em_linha >= 5)
+                {
+                    //se não é IA retona -1
+                    if (jogador == 'O') return 1;
+                    else return -1;
+                }
+                //se maior que cinco temos vitória em coluna 
+                else if (vitória_em_coluna >= 5) //se não é IA retona -1
+                    if (jogador == 'O') return 1;
+                    else return -1;
+                //vitória em cinco de diagonal
+                else if (vitória_em_diagonal >= 5)//se não é IA retona -1
+                    if (jogador == 'O') return 1;
+                    else return -1;
+                else if (vitória_em_diagonal_dois >= 5) //se não é IA retona -1
+                    if (jogador == 'O') return 1;
+                    else return -1;
+
+            }
+            //CASO NÃO TENHA VITÓRIA CONSIDERAMOS EMPATE.
+            return 0;
+        }
+
+       
     }
-    
 }
