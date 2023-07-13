@@ -13,8 +13,8 @@ namespace ConnectCinco.entidade
 
     internal class Tabuleiro
     {
-        private const int SIZE_X = 5;
-        private const int SIZE_Y = 5;
+        private const int SIZE_X = 6;
+        private const int SIZE_Y = 6;
         public char[,] campo = new char[SIZE_X - 1, SIZE_Y - 1 ];
         private Int16 contadorA = 0;
         private Int16 contadorB = 0;
